@@ -77,6 +77,14 @@ function startGame() {
     }
 
     function gameOver(gameWon) {
-        console.log("Game over");
+        
+        for(let index of winningComb[gameWon.index]) {
+            document.getElementById(index).style.backgroundColor = 
+            gameWon.player == humPlayer ? 'blue' : 'red';
+        }
+
+        for(let i=0; i < cells.length; i++) {
+            cells[i].removeEventListener('click', turnClick, false);
+        }
     }
 }
