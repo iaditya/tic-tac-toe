@@ -1,2 +1,2 @@
 # tic-tac-toe
-Tic Tac Toe in VanillaJS &amp; MinMax Algorithm
+Tic Tac Toe in VanillaJS using MiniMax Algorithm
