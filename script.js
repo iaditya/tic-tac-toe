@@ -38,4 +38,39 @@ function turn(boxId, player) {
   originalBoard[boxId] = player;
   document.getElementById(boxId).innerText = player;
   document.getElementById(boxId).style.backgroundColor = "whitesmoke";
+
+  let gameWon = checkWin(originalBoard, player);
+  if (gameWon) gameOver(gameWon);
+}
+
+function checkWin(board, player) {
+  // storing indexes of selected box index
+  const plays = board.reduce((acc, value, index) => {
+    return value === player ? acc.concat(index) : acc;
+  }, []);
+
+  //on every call we check game status
+  let gameWon = null;
+
+  for (let i = 0; i < winningCombos.length; i++) {
+    if (winningCombos[i].every((item) => plays.indexOf(item) > -1)) {
+      gameWon = { index: i, player: player };
+      break;
+    }
+  }
+  return gameWon;
+}
+
+function gameOver(gameWon) {
+  console.log(gameWon);
+
+  for (let index of winningCombos[gameWon.index]) {
+    document.getElementById(index).style.backgroundColor =
+      gameWon.player === humanPlayer ? "lightgreen" : "red";
+  }
+
+  //removes click event listener
+  for (let i = 0; i < cells.length; i++) {
+    cells[i].removeEventListener("click", turnClick, false);
+  }
 }
