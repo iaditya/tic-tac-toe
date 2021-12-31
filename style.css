@@ -34,7 +34,6 @@ table td:last-child {
 }
 
 .endgame {
-  /* display: none; */
   position: absolute;
   top: 120px;
   left: 50%;
@@ -43,6 +42,11 @@ table td:last-child {
   color: white;
   padding: 60px 30px;
   font-size: 2rem;
-  background-color: whitesmoke;
   box-shadow: 0 1px 10px lightgrey;
+  background-color: lightsalmon;
+  font-family: monospace;
+}
+
+.text {
+  text-align: center;
 }

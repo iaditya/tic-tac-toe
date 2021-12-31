@@ -31,7 +31,13 @@ function startGame() {
 }
 
 function turnClick(e) {
-  turn(e.target.id, humanPlayer);
+  //can not click on the box that is already clicked.
+  if (typeof originalBoard[e.target.id] === "number") {
+    turn(e.target.id, humanPlayer);
+    //runs ai player
+    if (!checkWin(originalBoard, humanPlayer) && !checkTie())
+      turn(bestSpot(), aiPlayer);
+  }
 }
 
 function turn(boxId, player) {
@@ -62,7 +68,9 @@ function checkWin(board, player) {
 }
 
 function gameOver(gameWon) {
-  console.log(gameWon);
+  if (!gameWon) {
+    return;
+  }
 
   for (let index of winningCombos[gameWon.index]) {
     document.getElementById(index).style.backgroundColor =
@@ -73,4 +81,32 @@ function gameOver(gameWon) {
   for (let i = 0; i < cells.length; i++) {
     cells[i].removeEventListener("click", turnClick, false);
   }
+
+  decalreWinner(gameWon.player === humanPlayer ? "You win." : "You lose.");
+}
+
+function bestSpot() {
+  //For now returns first empty box
+  return emptyBox()[0];
+}
+
+function emptyBox() {
+  return originalBoard.filter((item) => typeof item === "number");
+}
+
+function checkTie() {
+  if (emptyBox().length === 0) {
+    for (let i = 0; i < cells.length; i++) {
+      cells[i].removeEventListener("click", turnClick, false);
+      cells[i].style.backgroundColor = "gray";
+    }
+    decalreWinner("Tie Game");
+    return true;
+  }
+  return false;
+}
+
+function decalreWinner(who) {
+  document.querySelector(".endgame").style.display = "block";
+  document.querySelector(".endgame .text").innerText = who;
 }
