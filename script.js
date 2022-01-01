@@ -86,16 +86,76 @@ function gameOver(gameWon) {
 }
 
 function bestSpot() {
-  //For now returns first empty box
-  return emptyBox()[0];
+  return minimax(originalBoard, aiPlayer).index;
 }
 
-function emptyBox() {
-  return originalBoard.filter((item) => typeof item === "number");
+function minimax(board, player) {
+  let availableSpots = emptyBox(board);
+
+  //1st -> return a score if terminal state is found
+  if (checkWin(board, aiPlayer)) {
+    return { score: +10 };
+  } else if (checkWin(board, humanPlayer)) {
+    return { score: -10 };
+  } else if (availableSpots.length === 0) {
+    return { score: 0 };
+  }
+
+  //2nd go though every available spots to evaluate later. store the best score for each empty spot[index]
+  let moves = []; // stores the score for each empty spot
+
+  for (let i = 0; i < availableSpots.length; i++) {
+    let move = {
+      index: board[availableSpots[i]],
+    };
+
+    //update the board for now to make recursive calls , will remove once we get the score.
+    board[availableSpots[i]] = player;
+
+    //3rd calling minimax fn for each spot
+    move.score = minimax(
+      board,
+      player === aiPlayer ? humanPlayer : aiPlayer
+    ).score;
+
+    //reset the index
+    board[availableSpots[i]] = move.index;
+
+    moves.push(move);
+  }
+
+  //4th evaluate returning values from fn calls & return the best
+
+  let bestMove;
+  if (player === aiPlayer) {
+    //retun the max value
+    let maxScore = -1000;
+    moves.forEach((item) => {
+      if (item.score > maxScore) {
+        maxScore = item.score;
+        bestMove = item;
+      }
+    });
+  } else if (player === humanPlayer) {
+    //retun the max value
+    let minScore = 1000;
+    moves.forEach((item) => {
+      if (item.score < minScore) {
+        minScore = item.score;
+        bestMove = item;
+      }
+    });
+  }
+
+  return bestMove;
+}
+
+function emptyBox(board) {
+  return board.filter((item) => typeof item === "number");
 }
 
 function checkTie() {
-  if (emptyBox().length === 0) {
+  if (emptyBox(originalBoard).length === 0) {
     for (let i = 0; i < cells.length; i++) {
       cells[i].removeEventListener("click", turnClick, false);
       cells[i].style.backgroundColor = "gray";
