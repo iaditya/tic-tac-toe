@@ -1,3 +1,14 @@
+h2 {
+  font-family: monospace;
+  text-align: center;
+  margin-top: 40px;
+}
+
+h2 > span {
+  color: lightcoral;
+  box-shadow: 0 5px 0 yellow;
+}
+
 td {
   height: 150px;
   width: 150px;
@@ -10,10 +21,11 @@ td {
 }
 
 table {
+  background-color: whitesmoke;
   border-collapse: collapse;
   position: absolute;
   left: 50%;
-  top: 50px;
+  top: 100px;
   transform: translateX(-50%);
 }
 
@@ -35,16 +47,25 @@ table td:last-child {
 
 .endgame {
   position: absolute;
-  top: 120px;
+  top: 180px;
   left: 50%;
   transform: translateX(-50%);
   width: 200px;
   color: white;
-  padding: 60px 30px;
+  padding: 40px 30px;
   font-size: 2rem;
   box-shadow: 0 1px 10px lightgrey;
   background-color: lightsalmon;
   font-family: monospace;
+}
+
+button {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  background-color: lightgreen;
+  border: 3px solid white;
+  margin: 10px auto;
+  display: block;
 }
 
 .text {

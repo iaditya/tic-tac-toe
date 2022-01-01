@@ -43,7 +43,6 @@ function turnClick(e) {
 function turn(boxId, player) {
   originalBoard[boxId] = player;
   document.getElementById(boxId).innerText = player;
-  document.getElementById(boxId).style.backgroundColor = "whitesmoke";
 
   let gameWon = checkWin(originalBoard, player);
   if (gameWon) gameOver(gameWon);
